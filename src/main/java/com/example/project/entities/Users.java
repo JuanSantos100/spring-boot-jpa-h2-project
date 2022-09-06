@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import java.io.Serializable;
@@ -32,13 +34,10 @@ public class Users implements Serializable {
 	private String phone;
 	private String password;
 	
-	@OneToMany(mappedBy = "client")
-	private List<Order> orders = new ArrayList<>();
-/*	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
-*/	
+
 	public Users() {
 	}
 
