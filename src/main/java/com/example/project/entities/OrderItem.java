@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.example.project.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -20,7 +21,9 @@ public class OrderItem implements Serializable{
 	
 	
 	@EmbeddedId //Para casos de IDs compostos
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
+	
+	
 	private Integer quantity;
 	private Double price;
 	
@@ -36,6 +39,7 @@ public class OrderItem implements Serializable{
 		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
