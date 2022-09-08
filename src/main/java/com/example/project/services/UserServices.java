@@ -31,4 +31,26 @@ public class UserServices {
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
+	
+	public Users update(Long id, Users obj) {
+		/*
+		 * O método getOne não vai até o banco para consultar um usuário e trazer o objeto
+		 * ele simplelesmente prepara o objeto monitorado pelo JPA para depois realizar operações com o banco
+		 * . Sendo mais eficiente
+		 */
+		
+		Users entity = repository.getOne(id);
+		updateData(entity, obj);
+		return repository.save(entity);
+		
+		
+		
+	}
+
+	private void updateData(Users entity, Users obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+		
+	}
 }
