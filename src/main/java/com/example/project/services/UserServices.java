@@ -3,6 +3,8 @@ package com.example.project.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -49,11 +51,14 @@ public class UserServices {
 		 * ele simplelesmente prepara o objeto monitorado pelo JPA para depois realizar operações com o banco
 		 * . Sendo mais eficiente
 		 */
-		
-		Users entity = repository.getOne(id);
-		updateData(entity, obj);
-		return repository.save(entity);
-		
+		try { 
+			Users entity = repository.getOne(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+			
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 		
 		
 	}
