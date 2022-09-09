@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.project.entities.Users;
 import com.example.project.repositories.UserRepository;
+import com.example.project.services.exceptions.ResourceNotFoundException;
 
 @Service //Registro de componente da classe que sofrerá injecção de dependência
 public class UserServices {
@@ -21,7 +22,7 @@ public class UserServices {
 	
 	public Users findById(Long id) {
 		Optional <Users> obj = repository.findById(id);
-		return obj.get(); //Retorna um objeto do tipo Users
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public Users insert(Users obj) {
