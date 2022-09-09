@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.example.project.services.exceptions.DatabaseException;
 import com.example.project.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice //Intercepta as exceções para que este objeto possa executar um tratamento
@@ -18,6 +19,14 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 		String erro = "Resource not Found";
 		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError error = new StandardError(Instant.now(), status.value(), erro, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(error);
+	}
+	
+	@ExceptionHandler(DatabaseException.class) //Esse método vai interceptar qualquer exceção deste tipo e vai fazer o tratamento
+	public ResponseEntity<StandardError> dataBase(DatabaseException e, HttpServletRequest request) {
+		String erro = "Database Error";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError error = new StandardError(Instant.now(), status.value(), erro, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(error);
 	}
